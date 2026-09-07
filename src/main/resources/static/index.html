@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flexiple AI Recruiter</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Error Overlay -->
+        <div id="error-overlay" class="hidden">
+            <div class="error-card">
+                <h3 id="error-title">Something went wrong</h3>
+                <p id="error-message">The AI is taking a quick breather. Please try again.</p>
+                <button id="error-dismiss-btn" class="primary-btn">Dismiss</button>
+            </div>
+        </div>
+
+        <!-- Initial Search View -->
+        <div id="initial-view" class="view active">
+            <div class="hero-container">
+                <h1>AI Recruiter</h1>
+                <p class="subtitle">Describe your ideal candidate, and let the AI find the perfect match.</p>
+                
+                <div class="search-box glass">
+                    <textarea id="initial-search-input" placeholder="e.g. RDS developers with 4-7 years of experience who have worked at startups, for a role based in Bangalore..."></textarea>
+                    <button id="initial-search-btn" class="primary-btn">Find Candidates</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Split Pane Layout (Results & Chat) -->
+        <div id="main-view" class="view hidden">
+            <!-- Left Panel: Context -->
+            <div class="left-panel glass-panel">
+                <div class="panel-header">
+                    <h2>Search Context</h2>
+                    <button id="freeze-btn" class="freeze-btn">Freeze Search</button>
+                </div>
+                
+                <div class="context-section">
+                    <h3>Objective Filters</h3>
+                    <div id="filters-container" class="context-content">
+                        <!-- Filters populated dynamically -->
+                    </div>
+                </div>
+
+                <div class="context-section">
+                    <h3>Subjective Fit Rubric</h3>
+                    <div id="rubric-container" class="context-content">
+                        <!-- Rubric populated dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel: Results and Refinement -->
+            <div class="right-panel">
+                <!-- Loading State -->
+                <div id="loading-state" class="hidden">
+                    <div class="loader"></div>
+                    <p id="loading-text">Analyzing your requirements...</p>
+                </div>
+
+                <!-- Results State -->
+                <div id="results-state" class="hidden">
+                    <div class="results-header">
+                        <h2 id="results-count-text">Top Candidates</h2>
+                        <span class="badge">AI Sorted</span>
+                    </div>
+
+                    <div id="candidates-container" class="candidates-list">
+                        <!-- Candidate Cards injected here -->
+                    </div>
+
+                    <div class="refinement-chat glass">
+                        <div id="chat-history" class="chat-history">
+                            <!-- Chat messages injected here -->
+                        </div>
+                        <div class="chat-input-area">
+                            <input type="text" id="chat-input" placeholder="Tell the AI what to change (e.g., 'Candidate 1 is too junior, I need more system design')">
+                            <button id="chat-send-btn" class="primary-btn">Refine</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Frozen State -->
+                <div id="frozen-state" class="hidden">
+                    <div class="frozen-card glass">
+                        <div class="celebration-icon">✨</div>
+                        <h2>Search Frozen Successfully</h2>
+                        <p>Your criteria and shortlist are locked in.</p>
+                        <button id="new-search-btn" class="secondary-btn mt-4">Start New Search</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>

@@ -5,7 +5,7 @@ This project implements the sourcing refinement loop for the AI Recruiter, fulfi
 ## Quick Start
 
 ### Prerequisites
-- Java 17+ installed.
+- Python 3.9+ installed.
 - A valid Google Gemini API Key.
 
 ### Running Locally
@@ -23,15 +23,15 @@ This project implements the sourcing refinement loop for the AI Recruiter, fulfi
    ```
 3. Run the application using the Maven wrapper:
    ```bash
-   ./mvnw spring-boot:run
+   pip install -r requirements.txt`n   python main.py
    ```
 4. Open your browser and navigate to `http://localhost:8080`.
 
 ## Architecture & Technical Decisions
 
 ### 1. Spring Boot + Vanilla JS (Single Application)
-I chose to build a **Java Spring Boot backend** with a **Vanilla JavaScript/HTML/CSS frontend** served from `src/main/resources/static`.
-- **Why?** This keeps the solution tightly integrated and completely runnable with a single `./mvnw spring-boot:run` command. Building a separate React/Vite app would have complicated the setup process. By leveraging CSS variables and smooth transitions, the vanilla frontend achieves the requested highly interactive, premium UI/UX without needing heavy frameworks.
+I chose to build a **Python FastAPI backend** with a **Vanilla JavaScript/HTML/CSS frontend** served from `static`.
+- **Why?** This keeps the solution tightly integrated and completely runnable with a single `pip install -r requirements.txt`n   python main.py` command. Building a separate React/Vite app would have complicated the setup process. By leveraging CSS variables and smooth transitions, the vanilla frontend achieves the requested highly interactive, premium UI/UX without needing heavy frameworks.
 
 ### 2. Stateless Backend
 The Spring Boot backend is completely stateless. It does not use HTTP Sessions. Instead, the frontend owns the entire search state (the `objective_filters`, `subjective_rubric`, `shownProfiles`, and `chatHistory`) and sends the full necessary context on every API request (`/api/refine`).
@@ -42,7 +42,7 @@ I chose Google's `gemini-3.1-flash-lite`.
 - **Why?** The refinement loop is a conversational experience. Recruiter feedback requires extremely fast round-trips to feel fluid. `gemini-3.1-flash-lite` provides near-instant structured output, making the loading/thinking states feel snappy while maintaining excellent reasoning capabilities.
 
 ### 4. Structured Output Validation
-All LLM prompts enforce strict JSON output utilizing Gemini's `responseMimeType: application/json` and `responseSchema` configurations. On the backend, we deserialize this with Jackson configured with `FAIL_ON_UNKNOWN_PROPERTIES = true`. 
+All LLM prompts enforce strict JSON output utilizing Gemini's `responseMimeType: application/json` and `responseSchema` configurations. On the backend, we deserialize this with Pydantic configured with `FAIL_ON_UNKNOWN_PROPERTIES = true`. 
 - **Why?** This ensures malformed output explicitly throws a catchable exception (which triggers our retry logic) rather than silently corrupting the search state.
 
 ### 5. Explicit Citations
@@ -59,7 +59,8 @@ The system is built to gracefully handle LLM rate limits (429) or timeouts:
 - The frontend catches this and renders a friendly "Error Card" overlay, allowing the user to dismiss it and simply hit "Refine" again without losing their state or crashing the app.
 
 ## Repository Structure
-- **Backend**: `src/main/java/com/flexiple/ai_recruiter/` (Controllers, Services, Models)
-- **Frontend**: `src/main/resources/static/` (`index.html`, `style.css`, `app.js`)
-- **Prompts**: `src/main/resources/prompts/` (Externalized `.md` prompt templates for easy review)
-- **Data**: `src/main/resources/profiles.json` (The provided talent pool)
+- **Backend**: `main.py` (Controllers, Services, Models)
+- **Frontend**: `static/` (`index.html`, `style.css`, `app.js`)
+- **Prompts**: `prompts/` (Externalized `.md` prompt templates for easy review)
+- **Data**: `profiles.json` (The provided talent pool)
+

@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+prompt_*.md
+.env
+.env.example
